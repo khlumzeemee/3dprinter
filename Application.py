@@ -23,17 +23,27 @@ class CreateCustomer(Frame):
   
   def __init__(self, master):
     Frame.__init__(self,master)
+    
     self.master = master
+    self.frame = Frame(self.master)
     self.initUI()
   
   def self.initUI(self):
+    self.master.title("3D Printer - Add Customer")
+    self.style = Style()
     #TODO add components here
     #Labels and inputtexts
     
     #Create Customer Button
     #Saving to DB and generating an ID
     #Redirecting to the next screen
-    pass
+    
+    self.frame.pack()
+  
+  def go_to_execute_script(self):
+    """redirect to next page"""
+    self.execute_script = Toplevel(self, self.master)
+    self.app = ExecuteScript(self.execute_script)
 
 class ExecuteScript(Frame):
   """Execute script screen"""
@@ -59,7 +69,7 @@ def main():
   
     root = Tk()
     root.geometry("300x200+300+300")
-    app = Application(root)
+    app = CreateCustomer(root)
     root.mainloop()  
 
 
