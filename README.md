@@ -3,3 +3,8 @@
 
 Reference for application structure:  
 http://stackoverflow.com/questions/17466561/best-way-to-structure-a-tkinter-application
+
+###Dependencies  
+  - TinyDB  
+  - tkinter  
+  - ttk  
