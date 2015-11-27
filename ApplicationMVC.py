@@ -60,7 +60,14 @@ class ApplicationController(object):
   def run_update_script(self):
     pass
   
+  def show_frame(self, c):
+        '''Show a frame for the given class'''
+        frame = self.frames[c]
+        frame.tkraise()  
+  
 root = Tk()
+toplevel_view = Toplevel(root)
+
 create_customer_view = CreateCustomerView(root)
 create_customer_model = CreateCustomerModel()
 controller = ApplicationController(create_customer_model, create_customer_view)
