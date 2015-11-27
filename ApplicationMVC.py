@@ -1,27 +1,70 @@
+from tkinter import Tk, RAISED, BOTH, LEFT, TOP, RIGHT, BOTTOM, messagebox
+from tkinter.ttk import Frame, Button, Style, Label, Entry
+from tinydb import Query
+
 class CreateCustomerView(Frame):
-  def __init__(self):
-    self.master = Tk()
+  def __init__(self, master):
+    self.master = master
     self.master.title("3d Printer - Create customer")
     self.controller = None
+    self.frame = {}
   
   def register(self, controller):
     self.controller = controller
   
   def initialize_ui(self):
-    pass
-
+    default_padding = {'padx': 10, 'pady' : 10}
+    
+    elements = {"name": "Name", "surname": "Surname", "email": "Email", cellphone : "Cellphone"}
+    for k,v in elements.iteritems():
+      frame = Frame(self.master)
+      self.frame[k] = frame
+      Label(frame, text = v, style="BW.TLabel").pack(default_padding)
+      Entry(frame).pack(default_padding)
+      frame.pack(expand = True, fill = "x")
+    
+    #Add button
+    save_customer_function = lambda : self.controller.save_customer(
+      question,
+      selected_answer.get()
+      )
+    button_frame = Frame(self.master)
+    Button(self.button_frame, text = "Create Customer", command = self.controller.save_customer).pack(default_padding)
+  
 class CreateCustomerModel(object):
-  pass
+  def __init__(self):
+    self.db = TinyDB('/db/db.json')
 
-class CreateCustomerController(object):
+  def save_customer(self, **kwargs):
+    return db.insert(kwargs)
+  
+  def run_take_picture_script(self, customer_id):
+    pass
+  
+  def run_update_script(self, customer_id):
+    pass  
+
+class ApplicationController(object):
   def __init__(self, model, view):
     self.model = model
     self.view = view
+    self.view.register(self)
   
+  def save_customer(self, **kwargs):
+    customer_id = self.model.save_customer(**kwargs)
+    
+    #TODO Redirect to next view
   
+  def run_take_picture_script(self):
+    pass
+  
+  def run_update_script(self):
+    pass
+  
+root = Tk()
+create_customer_view = CreateCustomerView(root)
+create_customer_model = CreateCustomerModel()
+controller = ApplicationController(create_customer_model, create_customer_view)
 
-    create_customer_view = CreateCustomerView()
-    create_customer_model = CreateCustomerModel()
-    create_customer_controller = CreateCustomerController(create_customer_model, create_customer_view)
+root.mainloop()
 
-    create_customer_view.main_loop()
