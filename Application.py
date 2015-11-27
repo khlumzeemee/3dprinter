@@ -1,5 +1,6 @@
 from tkinter import Tk, RAISED, BOTH, LEFT, TOP, RIGHT, BOTTOM, messagebox
 from tkinter.ttk import Frame, Button, Style, Label, Entry
+from tinydb import Query
 
 class Application(Frame):
   """ Main class """
@@ -86,6 +87,9 @@ class CreateCustomer(Frame):
       return
     
     #TODO tinydb save
+    db = TinyDB('db.json')
+    self.customer_id = db.insert(self.customer.__dict__)
+    
     #TODO redirect to next page
   
   def go_to_execute_script(self):
