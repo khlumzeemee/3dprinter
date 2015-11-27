@@ -7,7 +7,7 @@ class CreateCustomerView(Frame):
     self.master = master
     self.master.title("3d Printer - Create customer")
     self.controller = None
-    self.frame = {}
+    self.entries = {}
   
   def register(self, controller):
     self.controller = controller
@@ -15,19 +15,17 @@ class CreateCustomerView(Frame):
   def initialize_ui(self):
     default_padding = {'padx': 10, 'pady' : 10}
     
-    elements = {"name": "Name", "surname": "Surname", "email": "Email", cellphone : "Cellphone"}
+    elements = {"name": "Name", "surname": "Surname", "email": "Email", "cellphone" : "Cellphone"}
     for k,v in elements.iteritems():
       frame = Frame(self.master)
-      self.frame[k] = frame
       Label(frame, text = v, style="BW.TLabel").pack(default_padding)
-      Entry(frame).pack(default_padding)
+      entries[k] = Entry(frame)
+      entries[k].pack(default_padding)
       frame.pack(expand = True, fill = "x")
     
-    #Add button
-    save_customer_function = lambda : self.controller.save_customer(
-      question,
-      selected_answer.get()
-      )
+    customer = dict(((k, v.get()) for k,v in self.entries.iteritems()))
+
+    save_customer_function = lambda : self.controller.save_customer(customer)
     button_frame = Frame(self.master)
     Button(self.button_frame, text = "Create Customer", command = self.controller.save_customer).pack(default_padding)
   
