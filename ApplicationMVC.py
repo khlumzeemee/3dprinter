@@ -28,6 +28,7 @@ class CreateCustomerView(Frame):
     save_customer_function = lambda : self.controller.save_customer(dict(zip(args, e.get() for e in entries))) 
     button_frame = Frame(self.master)
     Button(self.button_frame, text = "Create Customer", command = self.controller.save_customer).pack(default_padding)
+    button_frame.pack(expand = True, fill = "x")
   
 class CreateCustomerModel(object):
   def __init__(self):
