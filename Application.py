@@ -87,7 +87,7 @@ class CreateCustomer(Frame):
       return
     
     #TODO tinydb save
-    db = TinyDB('db.json')
+    db = TinyDB('/db/db.json')
     self.customer_id = db.insert(self.customer.__dict__)
     
     #TODO redirect to next page
