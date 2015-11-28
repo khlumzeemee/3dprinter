@@ -1,5 +1,5 @@
-from tkinter import Tk, RAISED, BOTH, LEFT, TOP, RIGHT, BOTTOM, messagebox, StringVar
-from tkinter.ttk import Frame, Button, Style, Label, Entry
+from tkinter import Tk, RAISED, BOTH, LEFT, TOP, RIGHT, BOTTOM, messagebox, StringVar, IntVar
+from tkinter.ttk import Frame, Button, Style, Label, Entry, Radiobutton
 from tinydb import TinyDB, Query
 
 class ApplicationController(Tk):
@@ -113,10 +113,18 @@ class ExecuteScriptView(Frame):
     self.customer_id_value.pack(default_padding, side = LEFT)
 
     customer_frame.pack(expand = True, fill = "x")
-    
-    self.button_take_picture = Button(self, text = "Take picture", command = self.controller.run_take_picture_script)
-    self.button_take_picture.pack(expand = True, fill = "x")
 
+    self.take_picture_frame = Frame(self, border = 10)
+    
+    picture_mode = IntVar()
+    Radiobutton(self.take_picture_frame, text = "Light", variable = picture_mode, value = 1).pack(side = LEFT)
+    Radiobutton(self.take_picture_frame, text = "Dark", variable = picture_mode, value = 2).pack(side = LEFT)
+    
+    self.button_take_picture = Button(self.take_picture_frame, text = "Take picture", command = self.controller.run_take_picture_script)
+    self.button_take_picture.pack(expand = True, fill = "x", side = BOTTOM)
+
+    self.take_picture_frame.pack(expand = True)
+    
     self.button_update = Button(self, text = "Update", command = self.controller.run_update_script)
     self.button_update.pack(expand = True, fill = "x")    
     
