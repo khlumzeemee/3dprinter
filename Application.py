@@ -1,6 +1,6 @@
-from tkinter import Tk, RAISED, BOTH, LEFT, TOP, RIGHT, BOTTOM, messagebox
+from tkinter import Tk, RAISED, BOTH, LEFT, TOP, RIGHT, BOTTOM, messagebox, Toplevel
 from tkinter.ttk import Frame, Button, Style, Label, Entry
-from tinydb import Query
+from tinydb import Query, TinyDB
 
 class Application(Frame):
   """ Main class """
@@ -86,14 +86,15 @@ class CreateCustomer(Frame):
       messagebox.showerror(message = "All fields are mandatory, please fill in all the fields")
       return
     
-    #TODO tinydb save
-    db = TinyDB('/db/db.json')
+    db = TinyDB('db/db.json')
     self.customer_id = db.insert(self.customer.__dict__)
     
     #TODO redirect to next page
+    self.go_to_execute_script()
   
   def go_to_execute_script(self):
     """redirect to next page"""
+    
     self.execute_script = Toplevel(self, self.master)
     self.app = ExecuteScript(self.execute_script)
      
