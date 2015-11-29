@@ -1,6 +1,7 @@
 from tkinter import Tk, RAISED, BOTH, LEFT, TOP, RIGHT, BOTTOM, messagebox, StringVar, IntVar
 from tkinter.ttk import Frame, Button, Style, Label, Entry, Radiobutton
 from tinydb import TinyDB, Query
+import scripts.takepicture as takepicture
 
 class ApplicationController(Tk):
   def __init__(self, *args, **kwargs):
@@ -47,8 +48,9 @@ class ApplicationController(Tk):
       messagebox.showerror(message = "All fields are mandatory, please fill in all the fields")
 
 
-  def run_take_picture_script(self):
-    pass
+  def run_take_picture_script(self, customer_id, picture_mode):
+    """Example of executing outside python script"""
+    return self.model.run_take_picture_script(customer_id, picture_mode)
   
   def run_update_script(self):
     pass
@@ -116,19 +118,26 @@ class ExecuteScriptView(Frame):
 
     self.take_picture_frame = Frame(self, border = 10)
     
-    picture_mode = IntVar()
-    Radiobutton(self.take_picture_frame, text = "Light", variable = picture_mode, value = 1).pack(side = LEFT)
-    Radiobutton(self.take_picture_frame, text = "Dark", variable = picture_mode, value = 2).pack(side = LEFT)
+    self.picture_mode = IntVar()
+    Radiobutton(self.take_picture_frame, text = "Light", variable = self.picture_mode, value = 1).pack(side = LEFT)
+    Radiobutton(self.take_picture_frame, text = "Dark", variable = self.picture_mode, value = 2).pack(side = LEFT)
     
-    self.button_take_picture = Button(self.take_picture_frame, text = "Take picture", command = self.controller.run_take_picture_script)
+    self.button_take_picture = Button(self.take_picture_frame, text = "Take picture", command = self.take_picture)
     self.button_take_picture.pack(expand = True, fill = "x", side = BOTTOM)
 
     self.take_picture_frame.pack(expand = True)
     
     self.button_update = Button(self, text = "Update", command = self.controller.run_update_script)
-    self.button_update.pack(expand = True, fill = "x")    
+    self.button_update.pack(expand = True, fill = "x")
+
+  def take_picture(self):
+    return self.controller.run_take_picture_script(self.controller.customer_id.get(), self.picture_mode.get())
+
+
+
     
 class CreateCustomerModel(object):
+  """Application business logic"""
   def __init__(self):
     pass
 
@@ -144,8 +153,8 @@ class CreateCustomerModel(object):
     return customer['name'] and customer['surname'] and customer['email'] and customer['cellphone']
    
   
-  def run_take_picture_script(self, customer_id):
-    pass
+  def run_take_picture_script(self, customer_id, picture_mode):
+    return takepicture.take_picture(customer_id, picture_mode)
   
   def run_update_script(self, customer_id):
     pass   
@@ -155,15 +164,6 @@ def main():
   app.mainloop() 
 
 if __name__ == '__main__':
-    main() 
+    main()
 
-
-##root = Tk()
-##toplevel_view = Toplevel(root)
-##
-##create_customer_view = CreateCustomerView(root)
-##create_customer_model = CreateCustomerModel()
-##controller = ApplicationController(create_customer_model, create_customer_view)
-##
-##root.mainloop()
 
